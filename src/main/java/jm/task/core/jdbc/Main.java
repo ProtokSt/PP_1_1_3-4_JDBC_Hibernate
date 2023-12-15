@@ -5,8 +5,7 @@ import jm.task.core.jdbc.util.Util;
 
 public class Main {
     public static void main(String[] args) {
-        // реализуйте алгоритм здесь
-        // JDBC_final v1.01
+        // JDBC_final v1.02
         UserServiceImpl userService = new UserServiceImpl();
         userService.createUsersTable();
         userService.saveUser("FYS", "SMD", (byte) 22);
@@ -16,9 +15,6 @@ public class Main {
         userService.getAllUsers();
         userService.cleanUsersTable();
         userService.dropUsersTable();
-        Util.closeConnection(); // static метод.
-
-        // hibernate
-//        Util.closeSessionFactory();
+        Util.closeConnection();
     }
 }

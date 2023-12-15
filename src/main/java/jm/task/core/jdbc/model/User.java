@@ -10,7 +10,6 @@ public class User {
     private Long id;
 
     @Column
-//    @Column(name = "id") // hibernate
     private String name;
 
     @Column
@@ -61,10 +60,8 @@ public class User {
         this.age = age;
     }
 
-    //    Alt+Insert->toString
     @Override
     public String toString() {
-//        return "User{" +
         return getClass().getSimpleName() +
                 "{id=" + id +
                 ", name='" + name + '\'' +

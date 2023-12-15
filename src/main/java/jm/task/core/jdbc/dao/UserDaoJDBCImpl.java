@@ -17,7 +17,6 @@ public class UserDaoJDBCImpl implements UserDao {
         if (statement != null) {
             try {
                 statement.close();
-//                System.out.println("statement closed");
             } catch (SQLException e) {
                 System.err.println("statement.close problem");
             }
@@ -25,7 +24,6 @@ public class UserDaoJDBCImpl implements UserDao {
         if (preparedStatement != null) {
             try {
                 preparedStatement.close();
-//                System.out.println("preparedStatement closed");
             } catch (SQLException e) {
                 System.err.println("preparedStatement.close problem");
             }
@@ -70,7 +68,6 @@ public class UserDaoJDBCImpl implements UserDao {
 
         try {
             preparedStatement = connection.prepareStatement(sqlCommand);
-//            preparedStatement.setLong(1, id); // autoincrement
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, lastName);
             preparedStatement.setByte(3, age);
@@ -84,9 +81,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void removeUserById(long id) {
-        //  сперва нужно подавать команду, так как по ней видно тип запроса statement
         sqlCommand = "delete from users where ID=?";
-        String sql2 = "SELECT * FROM users where ID=?";
         preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(sqlCommand);
@@ -105,7 +100,6 @@ public class UserDaoJDBCImpl implements UserDao {
         statement = null;
         try {
             statement = connection.createStatement();
-            // ResultSet это поезд с данными по запросу executeQuery(sql)
             ResultSet resultSet = statement.executeQuery(sqlCommand);
             while (resultSet.next()) {
                 User user = new User();

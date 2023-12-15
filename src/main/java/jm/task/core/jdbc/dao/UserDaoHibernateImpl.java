@@ -9,7 +9,6 @@ import java.sql.Connection;
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
-    private static final SessionFactory sessionFactory = Util.getSessionFactory();
 
     public UserDaoHibernateImpl() {
 
