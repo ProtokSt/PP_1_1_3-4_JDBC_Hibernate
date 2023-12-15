@@ -12,12 +12,13 @@ public class UserDaoJDBCImpl implements UserDao {
     private String sqlCommand;
     private Statement statement;
     private PreparedStatement preparedStatement;
+
     private void anyStatementClose() {
         if (statement != null) {
             try {
                 statement.close();
 //                System.out.println("statement closed");
-            }catch (SQLException e) {
+            } catch (SQLException e) {
                 System.err.println("statement.close problem");
             }
         }
@@ -25,7 +26,7 @@ public class UserDaoJDBCImpl implements UserDao {
             try {
                 preparedStatement.close();
 //                System.out.println("preparedStatement closed");
-            }catch (SQLException e) {
+            } catch (SQLException e) {
                 System.err.println("preparedStatement.close problem");
             }
         }
@@ -37,7 +38,6 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void createUsersTable() {
         sqlCommand = "CREATE TABLE IF NOT EXISTS users (id BIGINT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(45), lastName VARCHAR(45), age TINYINT) charset = utf8mb3";
-//        Statement statement = null;
         statement = null;
         try {
             statement = connection.createStatement();
@@ -45,25 +45,8 @@ public class UserDaoJDBCImpl implements UserDao {
             System.out.println("Table Users has been created or already exists!");
         } catch (SQLException e) {
             System.err.println("Table creation problem");
-//            e.printStackTrace();
-//            throw new RuntimeException(e);
         } finally {
-//            if (statement != null) {
-//                try {
-//                    statement.close();
-//                }catch (SQLException e) {
-//                    System.err.println("statement.close problem");
-//                }
-//            }
             this.anyStatementClose();
-//            if (connection != null) {
-//                try {
-//                    connection.close();
-//                }catch (SQLException e) {
-//                    System.err.println("connection.close problem");
-//                }
-//            }
-//            this.connectionClose();
         }
     }
 
@@ -100,25 +83,12 @@ public class UserDaoJDBCImpl implements UserDao {
         }
     }
 
-    public void removeUserById(long id)  {
+    public void removeUserById(long id) {
         //  сперва нужно подавать команду, так как по ней видно тип запроса statement
         sqlCommand = "delete from users where ID=?";
         String sql2 = "SELECT * FROM users where ID=?";
         preparedStatement = null;
         try {
-            // а я хочу выводить данные строки перед удалением, идите в жопу
-//            preparedStatement = connection.prepareStatement(sql2);
-//            preparedStatement.setLong(1, id);
-//            ResultSet resultSet = preparedStatement.executeQuery(sql2);
-//            while (resultSet.next()){
-//                User user = new User();
-//                user.setId(resultSet.getLong("id"));
-//                user.setName(resultSet.getString("name"));
-//                user.setLastName(resultSet.getString("lastName"));
-//                user.setAge(resultSet.getByte("age"));
-//                System.out.println("DELETE row " + user);
-//            }
-
             preparedStatement = connection.prepareStatement(sqlCommand);
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
@@ -137,7 +107,7 @@ public class UserDaoJDBCImpl implements UserDao {
             statement = connection.createStatement();
             // ResultSet это поезд с данными по запросу executeQuery(sql)
             ResultSet resultSet = statement.executeQuery(sqlCommand);
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 User user = new User();
                 user.setId(resultSet.getLong("id"));
                 user.setName(resultSet.getString("name"));
