@@ -65,8 +65,8 @@ public class Util {
                 Properties settings = new Properties();
                 settings.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
                 settings.put(Environment.URL, "jdbc:mysql://localhost:3306/jpp_1_1_4?useSSL=false");
-                settings.put(Environment.USER, "root");
-                settings.put(Environment.PASS, "1604javaSQL2023!");
+                settings.put(Environment.USER, USERNANE);
+                settings.put(Environment.PASS, PASSWORD);
                 settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
 
                 settings.put(Environment.SHOW_SQL, "true");
@@ -85,10 +85,14 @@ public class Util {
 
                 sessionFactory = configuration.buildSessionFactory(serviceRegistry);
             } catch (Exception e) {
-                e.printStackTrace();
+                System.err.println("Problem with getting sessionFactory!?");
             }
+            System.out.println("new sessionFactory opened");
+            return sessionFactory;
+        } else {
+            System.out.println("return existing sessionFactory");
+            return sessionFactory;
         }
-        return sessionFactory;
     }
 
     public static void closeSessionFactory() {
