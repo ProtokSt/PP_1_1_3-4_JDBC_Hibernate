@@ -2,7 +2,6 @@ package jm.task.core.jdbc.model;
 
 import javax.persistence.*;
 
-
 @Entity
 @Table(name="Users")
 public class User {
@@ -11,14 +10,13 @@ public class User {
     @Column(name = "id")
     private Long id;
 
-    @Column
-//    @Column(name = "id") // hibernate
+    @Column(name = "name")
     private String name;
 
-    @Column
+    @Column(name = "lastName")
     private String lastName;
 
-    @Column
+    @Column(name = "age")
     private Byte age;
 
     public User() {
