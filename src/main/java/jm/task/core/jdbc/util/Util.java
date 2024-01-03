@@ -12,12 +12,12 @@ import java.sql.*;
 import java.util.Properties;
 
 public class Util {
-    // реализуйте настройку соеденения с БД
     private static String URL = "jdbc:mysql://localhost:3306/jpp_1_1_4";
     private static final String USERNANE = "root";
     private static final String PASSWORD = "1604javaSQL2023!";
     private static Connection connection = null;
 
+    // соединение для JDBC
     public static Connection getConnection() {
         if (connection == null) {
             try {
@@ -61,16 +61,13 @@ public class Util {
             try {
                 Configuration configuration = new Configuration();
 
-                // Hibernate settings equivalent to hibernate.cfg.xml's properties
                 Properties settings = new Properties();
                 settings.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
                 settings.put(Environment.URL, "jdbc:mysql://localhost:3306/jpp_1_1_4?useSSL=false");
-                settings.put(Environment.USER, "root");
-                settings.put(Environment.PASS, "1604javaSQL2023!");
+                settings.put(Environment.USER, USERNANE);
+                settings.put(Environment.PASS, PASSWORD);
                 settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
-
                 settings.put(Environment.SHOW_SQL, "true");
-
                 settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
 
 //                settings.put(Environment.HBM2DDL_AUTO, "create-drop");
@@ -85,14 +82,17 @@ public class Util {
 
                 sessionFactory = configuration.buildSessionFactory(serviceRegistry);
             } catch (Exception e) {
-                e.printStackTrace();
+                System.err.println("Problem with getting sessionFactory!?");
             }
+            System.out.println("new sessionFactory opened");
+            return sessionFactory;
+        } else {
+            System.out.println("return existing sessionFactory");
+            return sessionFactory;
         }
-        return sessionFactory;
     }
 
     public static void closeSessionFactory() {
-//        System.out.println("closeSessionFactory do");
         if (sessionFactory != null) {
             try {
                 sessionFactory.close();
