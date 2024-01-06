@@ -2,24 +2,21 @@ package jm.task.core.jdbc.dao;
 
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
-public class UserDaoHibernateImpl implements UserDao {
+public class UserDaoHibernateImpl implements UserDaoHibernate {
     private static final SessionFactory sessionFactory = Util.getSessionFactory();
     private static Session session = null;
     private String sqlCommand;
 
     public UserDaoHibernateImpl() {
-
+        // demand of lesson
     }
 
 
@@ -34,8 +31,9 @@ public class UserDaoHibernateImpl implements UserDao {
             session.beginTransaction();
             sqlCommand = "CREATE TABLE IF NOT EXISTS users (id BIGINT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(45), lastName VARCHAR(45), age TINYINT) charset = utf8mb3";
 
-            Query query = session.createSQLQuery(sqlCommand).addEntity(User.class);
-            query.executeUpdate();
+//            Query query = session.createSQLQuery(sqlCommand).addEntity(User.class);
+//            query.executeUpdate();
+            session.createSQLQuery(sqlCommand).addEntity(User.class).executeUpdate();
 
             session.getTransaction().commit();
 
@@ -57,8 +55,9 @@ public class UserDaoHibernateImpl implements UserDao {
             session.beginTransaction();
             sqlCommand = "DROP TABLE IF EXISTS users";
 
-            Query query = session.createSQLQuery(sqlCommand).addEntity(User.class);
-            query.executeUpdate();
+//            Query query = session.createSQLQuery(sqlCommand).addEntity(User.class);
+//            query.executeUpdate();
+            session.createSQLQuery(sqlCommand).addEntity(User.class).executeUpdate();
 
             session.getTransaction().commit();
 
@@ -120,8 +119,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Root<User> root = cq.from(User.class); // корневой entity, основная таблица объектов
         cq.select(root); // получить все объекты
         // выполнение запроса
-        Query query = session.createQuery(cq);
-        List<User> userList = query.getResultList();
+        List<User> userList = session.createQuery(cq).getResultList();
         session.close();
 
         // вывод в консоль
@@ -144,11 +142,9 @@ public class UserDaoHibernateImpl implements UserDao {
 
         session.getTransaction().commit();
 
-        // вывод в консоль
         for (User u : userList) {
             System.out.println(u);
         }
-//        return null;
         return userList;
     }
 
