@@ -13,9 +13,11 @@ public class Main {
         userService.saveUser("MarkH3", "Head3", (byte) 28);
         userService.saveUser("MarkH4", "TSMC", (byte) 29);
         userService.getAllUsers();
-        userService.cleanUsersTable();
-        userService.dropUsersTable();
+//        userService.cleanUsersTable();
+//        userService.dropUsersTable();
 
-        Util.closeSessionFactory();
+        Util.closeConnection();
+
+//        Util.closeSessionFactory();
     }
 }
