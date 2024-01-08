@@ -3,10 +3,10 @@ package jm.task.core.jdbc.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name="Users")
+@Table(name = "Users")
 public class User {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY) // MySQl autoincrement
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // MySQl autoincrement
     @Column(name = "id")
     private Long id;
 
@@ -61,10 +61,8 @@ public class User {
         this.age = age;
     }
 
-    //    Alt+Insert->toString
     @Override
     public String toString() {
-//        return "User{" +
         return getClass().getSimpleName() +
                 "{id=" + id +
                 ", name='" + name + '\'' +

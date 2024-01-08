@@ -10,7 +10,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
-public class UserDaoHibernateImpl implements UserDaoHibernate {
+public class UserDaoHibernateImpl implements UserDao {
     private static final SessionFactory sessionFactory = Util.getSessionFactory();
     private static Session session = null;
     private String sqlCommand;
@@ -30,9 +30,6 @@ public class UserDaoHibernateImpl implements UserDaoHibernate {
         try {
             session.beginTransaction();
             sqlCommand = "CREATE TABLE IF NOT EXISTS users (id BIGINT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(45), lastName VARCHAR(45), age TINYINT) charset = utf8mb3";
-
-//            Query query = session.createSQLQuery(sqlCommand).addEntity(User.class);
-//            query.executeUpdate();
             session.createSQLQuery(sqlCommand).addEntity(User.class).executeUpdate();
 
             session.getTransaction().commit();
@@ -54,9 +51,6 @@ public class UserDaoHibernateImpl implements UserDaoHibernate {
         try {
             session.beginTransaction();
             sqlCommand = "DROP TABLE IF EXISTS users";
-
-//            Query query = session.createSQLQuery(sqlCommand).addEntity(User.class);
-//            query.executeUpdate();
             session.createSQLQuery(sqlCommand).addEntity(User.class).executeUpdate();
 
             session.getTransaction().commit();

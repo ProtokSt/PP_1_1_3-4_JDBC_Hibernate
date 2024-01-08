@@ -31,7 +31,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public UserDaoJDBCImpl() {
-
+        // demand of lesson
     }
 
     public void createUsersTable() {

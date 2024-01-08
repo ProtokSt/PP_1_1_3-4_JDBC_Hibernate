@@ -12,7 +12,7 @@ import java.sql.*;
 import java.util.Properties;
 
 public class Util {
-    private static final String URL = "jdbc:mysql://localhost:3306/jpp_1_1_4";
+    private static String URL = "jdbc:mysql://localhost:3306/jpp_1_1_4";
     private static final String USERNANE = "root";
     private static final String PASSWORD = "1604javaSQL2023!";
     private static Connection connection = null;
