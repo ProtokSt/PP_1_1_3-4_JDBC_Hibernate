@@ -23,7 +23,6 @@ public class UserDaoHibernateImpl implements UserDao {
         // demand of lesson
     }
 
-
     @Override
     public void createUsersTable() {
         if (session == null) {
@@ -67,7 +66,7 @@ public class UserDaoHibernateImpl implements UserDao {
         } catch (Exception e) {
             System.err.println("Drop table problem");
             if (transaction.getStatus() == ACTIVE || transaction.getStatus() == MARKED_ROLLBACK) {
-                transaction.rollback();
+                transaction.rollback(); // нужно, что-то дописать, чтобы сделать пуш после фетч
             }
         } finally {
             session.close();
