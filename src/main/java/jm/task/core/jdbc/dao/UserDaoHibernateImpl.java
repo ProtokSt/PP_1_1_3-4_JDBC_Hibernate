@@ -4,11 +4,15 @@ import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
+
+import static org.hibernate.resource.transaction.spi.TransactionStatus.ACTIVE;
+import static org.hibernate.resource.transaction.spi.TransactionStatus.MARKED_ROLLBACK;
 
 public class UserDaoHibernateImpl implements UserDao {
     private static final SessionFactory sessionFactory = Util.getSessionFactory();
@@ -27,6 +31,7 @@ public class UserDaoHibernateImpl implements UserDao {
         } else {
             session = sessionFactory.getCurrentSession();
         }
+        Transaction transaction = session.getTransaction();
         try {
             session.beginTransaction();
             sqlCommand = "CREATE TABLE IF NOT EXISTS users (id BIGINT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(45), lastName VARCHAR(45), age TINYINT) charset = utf8mb3";
@@ -36,6 +41,9 @@ public class UserDaoHibernateImpl implements UserDao {
 
         } catch (Exception e) {
             System.err.println("Create table problem");
+            if (transaction.getStatus() == ACTIVE || transaction.getStatus() == MARKED_ROLLBACK) {
+                transaction.rollback();
+            }
         } finally {
             session.close();
         }
@@ -48,6 +56,7 @@ public class UserDaoHibernateImpl implements UserDao {
         } else {
             session = sessionFactory.getCurrentSession();
         }
+        Transaction transaction = session.getTransaction();
         try {
             session.beginTransaction();
             sqlCommand = "DROP TABLE IF EXISTS users";
@@ -57,6 +66,9 @@ public class UserDaoHibernateImpl implements UserDao {
 
         } catch (Exception e) {
             System.err.println("Drop table problem");
+            if (transaction.getStatus() == ACTIVE || transaction.getStatus() == MARKED_ROLLBACK) {
+                transaction.rollback();
+            }
         } finally {
             session.close();
         }
@@ -69,12 +81,16 @@ public class UserDaoHibernateImpl implements UserDao {
         } else {
             session = sessionFactory.getCurrentSession();
         }
+        Transaction transaction = session.getTransaction();
         try {
             session.beginTransaction();
             session.save(new User(name, lastName, age));
             session.getTransaction().commit();
         } catch (Exception e) {
             System.err.println("Saving user problem");
+            if (transaction.getStatus() == ACTIVE || transaction.getStatus() == MARKED_ROLLBACK) {
+                transaction.rollback();
+            }
         } finally {
             session.close(); // закрываем повторно так как, если исключение, то коммит не закроет
         }
@@ -87,6 +103,7 @@ public class UserDaoHibernateImpl implements UserDao {
         } else {
             session = sessionFactory.getCurrentSession();
         }
+        Transaction transaction = session.getTransaction();
         try {
             session.beginTransaction();
 
@@ -96,6 +113,9 @@ public class UserDaoHibernateImpl implements UserDao {
             session.getTransaction().commit();
         } catch (Exception e) {
             System.err.println("Removing user problem");
+            if (transaction.getStatus() == ACTIVE || transaction.getStatus() == MARKED_ROLLBACK) {
+                transaction.rollback();
+            }
         } finally {
             session.close();
         }
@@ -149,6 +169,7 @@ public class UserDaoHibernateImpl implements UserDao {
         } else {
             session = sessionFactory.getCurrentSession();
         }
+        Transaction transaction = session.getTransaction();
         try {
             session.beginTransaction();
 
@@ -157,6 +178,9 @@ public class UserDaoHibernateImpl implements UserDao {
             session.getTransaction().commit();
         } catch (Exception e) {
             System.err.println("Clean users table problem");
+            if (transaction.getStatus() == ACTIVE || transaction.getStatus() == MARKED_ROLLBACK) {
+                transaction.rollback();
+            }
         } finally {
             session.close();
         }
